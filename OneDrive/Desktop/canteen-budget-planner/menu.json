@@ -1,0 +1,9 @@
+[
+  { "id": 1, "name": "Khichuri + Egg", "price": 50, "type": "Veg", "kcal": 520, "protein": "18g", "img": "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=500&q=80" },
+  { "id": 2, "name": "Singara + Tea", "price": 30, "type": "Veg", "kcal": 280, "protein": "5g", "img": "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=500&q=80" },
+  { "id": 3, "name": "Chicken Biryani", "price": 120, "type": "Non-veg", "kcal": 780, "protein": "35g", "img": "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=500&q=80" },
+  { "id": 4, "name": "Rice + Dal + Veg", "price": 60, "type": "Veg", "kcal": 450, "protein": "12g", "img": "https://images.unsplash.com/photo-1546833998-877b37c2e5c6?w=500&q=80" },
+  { "id": 5, "name": "Rice + Chicken Curry", "price": 90, "type": "Non-veg", "kcal": 650, "protein": "28g", "img": "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=500&q=80" },
+  { "id": 6, "name": "Beef Tehari", "price": 150, "type": "Non-veg", "kcal": 820, "protein": "40g", "img": "https://images.unsplash.com/photo-1633945274405-b6c8069047b0?w=500&q=80" },
+  { "id": 7, "name": "Egg Paratha", "price": 40, "type": "Veg", "kcal": 390, "protein": "15g", "img": "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=500&q=80" }
+]

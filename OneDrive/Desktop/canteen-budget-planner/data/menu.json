@@ -1,0 +1,120 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+
+export default function Menu() {
+  const [menuItems, setMenuItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // API থেকে ডেটাবেসের মেনু লোড করা
+  useEffect(() => {
+    async function fetchMenu() {
+      try {
+        const res = await fetch('/api/menu');
+        const data = await res.json();
+        setMenuItems(data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching menu", error);
+        setLoading(false);
+      }
+    }
+    fetchMenu();
+  }, []);
+
+  return (
+    <main className="min-h-screen bg-[#F6F0E4] text-[#23201B] font-sans selection:bg-[#F2674A] selection:text-white">
+      
+      {/* NAVBAR */}
+      <nav className="w-full flex justify-between items-center px-8 py-6 max-w-6xl mx-auto border-b border-[#23201B]/10 sticky top-0 bg-[#F6F0E4]/80 backdrop-blur-md z-50">
+        <Link href="/" className="flex items-center gap-2 font-extrabold text-2xl text-[#F2674A] hover:opacity-80 transition tracking-tighter">
+          <div className="w-8 h-8 rounded-lg bg-[#F2674A] flex items-center justify-center text-white text-lg font-black">
+            C
+          </div>
+          CanteenAI
+        </Link>
+        <div className="flex gap-6 font-semibold text-[#23201B] items-center">
+          <Link href="/" className="hover:text-[#F2674A] transition">Home</Link>
+          <Link href="/menu" className="text-[#F2674A]">Menu</Link>
+          <Link href="/planner" className="bg-[#23201B] text-white px-5 py-2 rounded-full hover:bg-[#F2674A] transition shadow-md">
+            AI Planner
+          </Link>
+        </div>
+      </nav>
+
+      <div className="max-w-6xl mx-auto px-5 py-16">
+        
+        {/* HEADER */}
+        <div className="text-center mb-16">
+          <span className="bg-[#F4C95D]/30 text-[#23201B] px-4 py-1.5 rounded-full text-sm font-bold tracking-wide uppercase mb-4 inline-block">
+            Today's Fresh Menu
+          </span>
+          <h1 className="font-extrabold text-5xl md:text-6xl mb-4 tracking-tight">Explore Campus Food</h1>
+          <p className="text-[#23201B]/60 max-w-xl mx-auto text-lg">
+            Browse through our canteen's top picks fetched directly from our database.
+          </p>
+        </div>
+
+        {/* LOADING STATE */}
+        {loading ? (
+          <div className="text-center text-[#23201B]/60 animate-pulse py-20">
+            <p className="text-2xl font-bold mb-2">Loading menu...</p>
+            <p>Fetching data from the database</p>
+          </div>
+        ) : (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {menuItems.map((item) => (
+              <div key={item.id} className="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(35,32,27,0.15)] transition-all duration-300 border border-[#23201B]/5 flex flex-col hover:-translate-y-1">
+                
+                {/* Image Container */}
+                <div className="relative h-52 overflow-hidden bg-gray-200">
+                  <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors z-10"></div>
+                  <img src={item.img} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  
+                  {/* Type Badge */}
+                  <div className={`absolute top-4 left-4 z-20 px-3 py-1 rounded-full text-xs font-bold shadow-sm backdrop-blur-md ${
+                    item.type === 'Veg' ? 'bg-[#2F6B4F]/90 text-white' : 'bg-[#F2674A]/90 text-white'
+                  }`}>
+                    {item.type}
+                  </div>
+
+                  {/* Price Badge */}
+                  <div className="absolute bottom-4 right-4 z-20 bg-white/90 backdrop-blur-md text-[#23201B] font-extrabold px-4 py-1.5 rounded-xl shadow-sm">
+                    ৳{item.price}
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="p-6 flex flex-col flex-grow">
+                  <h3 className="font-extrabold text-2xl mb-2 text-[#23201B] group-hover:text-[#F2674A] transition-colors">{item.name}</h3>
+                  
+                  <div className="flex gap-4 text-sm text-[#23201B]/60 mb-6 font-medium">
+                    <div className="flex items-center gap-1.5">
+                      <svg className="w-4 h-4 text-[#F2674A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"></path>
+                      </svg>
+                      {item.kcal} kcal
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <svg className="w-4 h-4 text-[#2F6B4F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                      </svg>
+                      {item.protein} protein
+                    </div>
+                  </div>
+
+                  <div className="mt-auto">
+                    <Link href="/planner" className="block text-center w-full bg-[#F6F0E4] text-[#23201B] font-bold py-3 rounded-xl hover:bg-[#23201B] hover:text-white transition-colors">
+                      Plan with AI
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </main>
+  );
+}
